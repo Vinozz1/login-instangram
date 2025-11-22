@@ -7,6 +7,6 @@ class ResetUserForm(FlaskForm):
     username            = StringField("username", validators=[DataRequired()])
     new_password        = PasswordField("new password", validators=[Length(min=8)])
     confirm_password    = PasswordField("confirm password", validators=[
-                            Length(min=8), 
-                            EqualTo(new_password)])
+                            Length(min=8),
+                            EqualTo('new_password', message='Passwords must match')])
     submit              = SubmitField("submit")

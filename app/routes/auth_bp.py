@@ -22,12 +22,14 @@ def reset():
     msg = ""
 
     if form.validate_on_submit():
-        user = User.query.filter_by(username = form.username.data)
+        user = User.query.filter_by(username = form.username.data).first()
         if user:
             user.password = generate_password_hash(form.new_password.data)
             db.session.commit()
             flash("Password reset successful. Please login with your new password.", "success")
-        flash("Something wen wrong.", "error")
+            return redirect(url_for("auth.login"))
+        else:
+            flash("Username not found.", "error")
 
     return render_template("auth/reset.html", form=form)
 
