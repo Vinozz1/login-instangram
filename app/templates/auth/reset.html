@@ -4,18 +4,15 @@
 {% endblock %}
 {% block content %}
     <div class="content">
-        {% if errors %}
-            {% for error in errors %}
-                <p style="color: red;">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        {% endif %}
-        {% if msg %}
-                <p style="color: green;">
-                    {{ msg }}
-                </p>
-        {% endif %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p style="color: {% if category == 'success' %}green{% else %}red{% endif %};">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <form method="post">
             {{ form.hidden_tag() }}
             <h1>Reset Password User</h1>
@@ -23,15 +20,30 @@
             <div>
                 {{ form.username.label }}
                 {{ form.username }}
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <p style="color: red; font-size: 0.9em;">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div>
                 {{ form.new_password.label }}
                 {{ form.new_password }}
+                {% if form.new_password.errors %}
+                    {% for error in form.new_password.errors %}
+                        <p style="color: red; font-size: 0.9em;">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div>
                 {{ form.confirm_password.label }}
                 {{ form.confirm_password }}
-            </div>        
+                {% if form.confirm_password.errors %}
+                    {% for error in form.confirm_password.errors %}
+                        <p style="color: red; font-size: 0.9em;">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
             <div>
                 {{ form.submit }}
             </div>
