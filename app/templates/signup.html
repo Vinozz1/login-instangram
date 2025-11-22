@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+<body>
+    {% if msg %}
+    <p style="color: lightgreen; background-color: gray;">{{ msg }}</p>
+    {% endif %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <h1>Sign Up</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, hic.</p>
+
+        <div>
+            {{ form.username.label }}
+            {{ form.username }}
+        </div>
+        <div>
+            {{ form.fullname.label }}
+            {{ form.fullname }}
+        </div>
+        <div>
+            {{ form.password.label }}
+            {{ form.password }}
+        </div>
+        <div>
+            {{ form.confirm.label }}
+            {{ form.confirm }}
+        </div>
+        <div>
+            {{ form.agreement.label }}
+            {{ form.agreement }}
+        </div>
+        <div>
+            {{ form.submit }}
+        </div>
+    </form>
+</body>
+</html>

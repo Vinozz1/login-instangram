@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+    <title>{{ title }} - instagram clone</title>
+    {% else %}
+    <title>instagram clone website</title>
+    {% endif %}
+    <style>
+        .flashed-messages {
+            background-color: lightblue;
+            width: 100px;
+            min-height: 1000px;
+            border-radius: 10px;
+            border: 3px solid blue;
+        }
+
+        .flashed-messages .error {
+            color: red;
+        }
+
+        .flashed-messages .success {
+            color: green;
+        }
+        
+    </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flashed-messages">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</body>
+</html>

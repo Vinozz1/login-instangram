@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .red {
+            background-color: pink;
+            color: maroon;
+        }
+    </style>
+</head>
+<body>
+    <h1>Login</h1>
+    {% if errors %}
+        {% for error in errors %}
+        <p style="color: red;">{{ error }}</p>
+        {% endfor %}
+    {% endif %}
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.username.label }}
+            {{ form.username(class="red") }}
+        </div>
+        <div>
+            {{ form.password.label }}
+            {{ form.password }}
+        </div>
+        <div>
+            {{ form.remember.label }}
+            {{ form.remember }}
+        </div>
+        <div>
+            {{ form.submit }}
+        </div>
+
+    </form>
+</body>
+</html>
