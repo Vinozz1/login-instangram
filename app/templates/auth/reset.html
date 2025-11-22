@@ -4,25 +4,15 @@
 {% endblock %}
 {% block content %}
     <div class="content">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <p style="color: {% if category == 'success' %}green{% else %}red{% endif %};">
-                        {{ message }}
-                    </p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
         <form method="post">
             {{ form.hidden_tag() }}
-            <h1>Reset Password User</h1>
-            <hr>
+            <h1>Reset Password</h1>
             <div>
                 {{ form.username.label }}
                 {{ form.username }}
                 {% if form.username.errors %}
                     {% for error in form.username.errors %}
-                        <p style="color: red; font-size: 0.9em;">{{ error }}</p>
+                        <span class="error-msg">{{ error }}</span>
                     {% endfor %}
                 {% endif %}
             </div>
@@ -31,7 +21,7 @@
                 {{ form.new_password }}
                 {% if form.new_password.errors %}
                     {% for error in form.new_password.errors %}
-                        <p style="color: red; font-size: 0.9em;">{{ error }}</p>
+                        <span class="error-msg">{{ error }}</span>
                     {% endfor %}
                 {% endif %}
             </div>
@@ -40,7 +30,7 @@
                 {{ form.confirm_password }}
                 {% if form.confirm_password.errors %}
                     {% for error in form.confirm_password.errors %}
-                        <p style="color: red; font-size: 0.9em;">{{ error }}</p>
+                        <span class="error-msg">{{ error }}</span>
                     {% endfor %}
                 {% endif %}
             </div>
