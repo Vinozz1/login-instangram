@@ -23,14 +23,23 @@
             <div>
                 {{ form.username.label }}
                 {{ form.username }}
+                {% for err in form.username.errors.item() %}
+                  <small>{{err}}</small>
+                {% endfor %}
             </div>
             <div>
                 {{ form.new_password.label }}
                 {{ form.new_password }}
+                {% for err in form.password.errors.item() %}
+                  <small>{{err}}</small>
+                {% endfor %}
             </div>
             <div>
                 {{ form.confirm_password.label }}
                 {{ form.confirm_password }}
+                {% for err in form.username.errors.item() %}
+                  <small>{{err}}</small>
+                {% endfor %}
             </div>        
             <div>
                 {{ form.submit }}
