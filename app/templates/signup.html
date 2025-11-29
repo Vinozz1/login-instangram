@@ -1,65 +1,78 @@
-{% extends 'base.html' %}
-{% block title %}
-    <title>Sign Up - Instagram Clone</title>
-{% endblock %}
-{% block content %}
-    <div class="content">
-        <form action="" method="post">
-            {{ form.hidden_tag() }}
-            <h1>Sign Up</h1>
-            <p style="color: #666; margin-bottom: 20px;">Join Instagram Clone to share your moments</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up • Instagram</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='instagram-style.css') }}">
+</head>
 
-            <div>
-                {{ form.username.label }}
-                {{ form.username }}
-                {% if form.username.errors %}
-                    {% for error in form.username.errors %}
-                        <span class="error-msg">{{ error }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            <div>
-                {{ form.fullname.label }}
-                {{ form.fullname }}
-                {% if form.fullname.errors %}
-                    {% for error in form.fullname.errors %}
-                        <span class="error-msg">{{ error }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            <div>
-                {{ form.password.label }}
-                {{ form.password }}
-                {% if form.password.errors %}
-                    {% for error in form.password.errors %}
-                        <span class="error-msg">{{ error }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            <div>
-                {{ form.confirm.label }}
-                {{ form.confirm }}
-                {% if form.confirm.errors %}
-                    {% for error in form.confirm.errors %}
-                        <span class="error-msg">{{ error }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            <div style="flex-direction: row; align-items: center; gap: 10px;">
-                {{ form.agreement }}
-                {{ form.agreement.label }}
-                {% if form.agreement.errors %}
-                    {% for error in form.agreement.errors %}
-                        <span class="error-msg">{{ error }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            <div>
-                {{ form.submit }}
-            </div>
-            <div style="text-align: center; margin-top: 15px;">
-                <p>Already have an account? <a href="{{ url_for('auth.login') }}" style="color: #0095f6; text-decoration: none; font-weight: bold;">Login</a></p>
-            </div>
-        </form>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <h1 class="auth-logo">Instagram</h1>
+      <p class="auth-subtitle">Sign up to see photos and videos from your friends.</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <p class="{% if category == 'success' %}success-message{% else %}error-message{% endif %}">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form action="{{ url_for('main.signup') }}" method="post" novalidate class="auth-form">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          {{ form.username.label }}
+          {{ form.username(class="form-control", placeholder="Username") }}
+          {% for error in form.username.errors %}
+            <span class="error-text">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          {{ form.fullname.label }}
+          {{ form.fullname(class="form-control", placeholder="Full Name") }}
+          {% for error in form.fullname.errors %}
+            <span class="error-text">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          {{ form.password.label }}
+          {{ form.password(class="form-control", placeholder="Password") }}
+          {% for error in form.password.errors %}
+            <span class="error-text">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          {{ form.confirm.label }}
+          {{ form.confirm(class="form-control", placeholder="Confirm Password") }}
+          {% for error in form.confirm.errors %}
+            <span class="error-text">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox-group">
+            {{ form.agreement() }}
+            {{ form.agreement.label }}
+          </div>
+          {% for error in form.agreement.errors %}
+            <span class="error-text">{{ error }}</span>
+          {% endfor %}
+        </div>
+
+        <button type="submit" class="btn-primary">{{ form.submit.label.text }}</button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+      </div>
     </div>
-{% endblock %}
+  </div>
+</body>
+</html>
