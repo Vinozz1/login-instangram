@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash,\
                             check_password_hash
+from sqlalchemy.exc import OperationalError
 
 from app.extensions import db
 from app.forms.signUpForm import SignupForm
@@ -18,24 +19,32 @@ def index():
 @main_bp.route("/feed")
 @login_required
 def feed():
-    # Get all posts ordered by newest first
-    posts = Post.query.order_by(Post.created_at.desc()).all()
-    return render_template("feed.html", posts=posts)
+    try:
+        # Get all posts ordered by newest first
+        posts = Post.query.order_by(Post.created_at.desc()).all()
+        return render_template("feed.html", posts=posts)
+    except OperationalError:
+        flash("Database not initialized. Please run migrations: flask db upgrade", "error")
+        return render_template("feed.html", posts=[])
 
 @main_bp.route("/create-post", methods=["GET", "POST"])
 @login_required
 def create_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(
-            caption=form.caption.data,
-            image_url=form.image_url.data,
-            user_id=current_user.id
-        )
-        db.session.add(post)
-        db.session.commit()
-        flash("Post created successfully!", "success")
-        return redirect(url_for("main.feed"))
+        try:
+            post = Post(
+                caption=form.caption.data,
+                image_url=form.image_url.data,
+                user_id=current_user.id
+            )
+            db.session.add(post)
+            db.session.commit()
+            flash("Post created successfully!", "success")
+            return redirect(url_for("main.feed"))
+        except OperationalError:
+            flash("Database not initialized. Please run: flask db upgrade", "error")
+            return redirect(url_for("main.profile"))
     return render_template("create_post.html", form=form)
 
 @main_bp.route("/signup", methods=["GET", "POST"])
@@ -62,6 +71,10 @@ def signup():
 @main_bp.route("/profile")
 @login_required
 def profile():
-    # Get current user's posts
-    user_posts = Post.query.filter_by(user_id=current_user.id).order_by(Post.created_at.desc()).all()
-    return render_template("profile.html", user_posts=user_posts)
+    try:
+        # Get current user's posts
+        user_posts = Post.query.filter_by(user_id=current_user.id).order_by(Post.created_at.desc()).all()
+        return render_template("profile.html", user_posts=user_posts)
+    except OperationalError:
+        flash("Database not initialized. Please run: flask db upgrade", "error")
+        return render_template("profile.html", user_posts=[])
