@@ -42,7 +42,10 @@
 
         <div class="form-group">
           {{ form.password.label }}
-          {{ form.password(class="form-control", placeholder="Password") }}
+          <div class="password-wrapper">
+            {{ form.password(class="form-control", placeholder="Password", id="password") }}
+            <button type="button" class="password-toggle" onclick="togglePassword('password')">Show</button>
+          </div>
           {% for error in form.password.errors %}
             <span class="error-text">{{ error }}</span>
           {% endfor %}
@@ -50,7 +53,10 @@
 
         <div class="form-group">
           {{ form.confirm.label }}
-          {{ form.confirm(class="form-control", placeholder="Confirm Password") }}
+          <div class="password-wrapper">
+            {{ form.confirm(class="form-control", placeholder="Confirm Password", id="confirm") }}
+            <button type="button" class="password-toggle" onclick="togglePassword('confirm')">Show</button>
+          </div>
           {% for error in form.confirm.errors %}
             <span class="error-text">{{ error }}</span>
           {% endfor %}
@@ -74,5 +80,20 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function togglePassword(fieldId) {
+      const field = document.getElementById(fieldId);
+      const button = event.target;
+
+      if (field.type === 'password') {
+        field.type = 'text';
+        button.textContent = 'Hide';
+      } else {
+        field.type = 'password';
+        button.textContent = 'Show';
+      }
+    }
+  </script>
 </body>
 </html>
