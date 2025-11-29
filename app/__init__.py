@@ -15,6 +15,10 @@ from app.models.posts import Post
 from app.models.likes import Like
 from app.models.comments import Comment
 from app.models.follows import Follow
+from app.models.notifications import Notification
+from app.models.saved_posts import SavedPost
+from app.models.stories import Story
+from app.models.messages import Message
 
 load_dotenv()
 
