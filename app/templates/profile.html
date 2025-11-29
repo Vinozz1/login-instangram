@@ -104,15 +104,42 @@
         }
         .post-item {
             position: relative;
-            padding-bottom: 100%;
-            background: #fafafa;
+            aspect-ratio: 1;
+            overflow: hidden;
             cursor: pointer;
+            border-radius: 3px;
         }
         .post-item img {
-            position: absolute;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .post-item:hover img {
+            transform: scale(1.05);
+        }
+        .post-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .post-item:hover .post-overlay {
+            display: flex;
+        }
+        .overlay-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .no-posts {
             text-align: center;
@@ -136,6 +163,7 @@
             <h2 class="nav-logo">Instagram</h2>
             <div class="nav-links">
                 <a href="{{ url_for('main.feed') }}">Feed</a>
+                <a href="{{ url_for('main.explore') }}">Explore</a>
                 <a href="{{ url_for('main.profile') }}">Profile</a>
                 <a href="{{ url_for('auth.logout') }}">Logout</a>
             </div>
@@ -155,10 +183,10 @@
                         <strong>{{ user_posts|length }}</strong> posts
                     </div>
                     <div class="profile-stat">
-                        <strong>0</strong> followers
+                        <strong>{{ current_user.followers.count() }}</strong> followers
                     </div>
                     <div class="profile-stat">
-                        <strong>0</strong> following
+                        <strong>{{ current_user.following.count() }}</strong> following
                     </div>
                 </div>
                 <div class="profile-fullname">{{ current_user.fullname }}</div>
@@ -172,9 +200,19 @@
         {% if user_posts %}
             <div class="posts-grid">
                 {% for post in user_posts %}
-                <div class="post-item">
+                <a href="{{ url_for('main.post_detail', post_id=post.id) }}" class="post-item">
                     <img src="{{ post.image_url }}" alt="Post image" onerror="this.src='https://via.placeholder.com/300?text=Image+Not+Found'">
-                </div>
+                    <div class="post-overlay">
+                        <div class="overlay-stat">
+                            <span>❤️</span>
+                            <span>{{ post.likes|length }}</span>
+                        </div>
+                        <div class="overlay-stat">
+                            <span>💬</span>
+                            <span>{{ post.comments|length }}</span>
+                        </div>
+                    </div>
+                </a>
                 {% endfor %}
             </div>
         {% else %}
