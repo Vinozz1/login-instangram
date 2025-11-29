@@ -9,6 +9,10 @@ from app.configs import DevConf, ProdConf
 from app.routes.main_bp import main_bp
 from app.routes.auth_bp import auth_bp
 
+# Import models for migrations
+from app.models.users import User
+from app.models.posts import Post
+
 load_dotenv()
 
 isDev = os.getenv("FLASK_DEBUG")
