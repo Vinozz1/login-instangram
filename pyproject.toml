@@ -1,7 +1,7 @@
 [project]
-name = "1"
+name = "instagram-clone"
 version = "0.1.0"
-description = "Add your description here"
+description = "Instagram Clone - Flask Web Application"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -10,5 +10,9 @@ dependencies = [
     "flask-migrate>=4.1.0",
     "flask-sqlalchemy>=3.1.1",
     "flask-wtf>=1.2.2",
+    "flask-bcrypt>=1.0.1",
+    "flask-mail>=0.10.0",
     "python-dotenv>=1.1.1",
+    "email-validator>=2.1.0",
+    "gunicorn>=21.2.0",
 ]

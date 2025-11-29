@@ -1,0 +1,28 @@
+# Flask Core
+Flask>=3.1.2
+Werkzeug>=3.0.0
+
+# Flask Extensions
+Flask-Login>=0.6.3
+Flask-Migrate>=4.1.0
+Flask-SQLAlchemy>=3.1.1
+Flask-WTF>=1.2.2
+Flask-Bcrypt>=1.0.1
+Flask-Mail>=0.10.0
+
+# Database
+SQLAlchemy>=2.0.0
+alembic>=1.13.0
+
+# Forms & Validation
+WTForms>=3.1.0
+email-validator>=2.1.0
+
+# Security
+bcrypt>=4.1.0
+
+# Environment & Utils
+python-dotenv>=1.1.1
+
+# Production Server
+gunicorn>=21.2.0
