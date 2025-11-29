@@ -12,6 +12,7 @@ from app.routes.auth_bp import auth_bp
 # Import models for migrations
 from app.models.users import User
 from app.models.posts import Post
+from app.models.likes import Like
 
 load_dotenv()
 
