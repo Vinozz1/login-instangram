@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Messages - Instagram Clone</title>
+{% endblock %}
+{% block content %}
+    <style>
+        .instagram-nav {
+            background: white;
+            border-bottom: 1px solid #dbdbdb;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 935px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .nav-logo {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #262626;
+            font-weight: 600;
+        }
+        .messages-container {
+            max-width: 935px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .messages-header {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #262626;
+        }
+        .conversation-list {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+        }
+        .conversation-item {
+            padding: 16px;
+            border-bottom: 1px solid #efefef;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #262626;
+            transition: background 0.2s;
+        }
+        .conversation-item:last-child {
+            border-bottom: none;
+        }
+        .conversation-item:hover {
+            background: #fafafa;
+        }
+        .conv-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .conv-info {
+            flex: 1;
+        }
+        .conv-username {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        .conv-fullname {
+            font-size: 14px;
+            color: #8e8e8e;
+        }
+        .no-messages {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8e8e8e;
+        }
+    </style>
+
+    <nav class="instagram-nav">
+        <div class="nav-container">
+            <h2 class="nav-logo">Instagram</h2>
+            <div class="nav-links">
+                <a href="{{ url_for('main.search') }}" title="Search">🔍</a>
+                <a href="{{ url_for('main.feed') }}">Feed</a>
+                <a href="{{ url_for('main.explore') }}">Explore</a>
+                <a href="{{ url_for('main.notifications') }}" title="Notifications">🔔</a>
+                <a href="{{ url_for('main.messages') }}" title="Messages">✉️</a>
+                <a href="{{ url_for('main.profile') }}">Profile</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="messages-container">
+        <h1 class="messages-header">Messages</h1>
+
+        {% if conversations %}
+            <div class="conversation-list">
+                {% for user in conversations %}
+                <a href="{{ url_for('main.chat', username=user.username) }}" class="conversation-item">
+                    <div class="conv-avatar">{{ user.fullname[0].upper() }}</div>
+                    <div class="conv-info">
+                        <div class="conv-username">{{ user.username }}</div>
+                        <div class="conv-fullname">{{ user.fullname }}</div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-messages">
+                <h3>No messages yet</h3>
+                <p>Start a conversation by searching for users!</p>
+                <a href="{{ url_for('main.search') }}" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #0095f6; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">Search Users</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
