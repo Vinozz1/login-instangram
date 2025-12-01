@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from 'macros/navigation.html' import render_nav %}
 {% block title %}
     <title>Create Post - Instagram Clone</title>
 {% endblock %}
@@ -6,33 +7,6 @@
     <style>
         body {
             background: #fafafa;
-        }
-        .instagram-nav {
-            background: white;
-            border-bottom: 1px solid #dbdbdb;
-            padding: 10px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .nav-container {
-            max-width: 935px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        .nav-logo {
-            font-family: 'Brush Script MT', cursive;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .nav-links a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: #262626;
-            font-weight: 600;
         }
         .create-container {
             max-width: 800px;
@@ -157,16 +131,7 @@
         }
     </style>
 
-    <nav class="instagram-nav">
-        <div class="nav-container">
-            <h2 class="nav-logo">Instagram</h2>
-            <div class="nav-links">
-                <a href="{{ url_for('main.feed') }}">Feed</a>
-                <a href="{{ url_for('main.profile') }}">Profile</a>
-                <a href="{{ url_for('auth.logout') }}">Logout</a>
-            </div>
-        </div>
-    </nav>
+    {{ render_nav() }}
 
     <div class="create-container">
         <div class="create-card">
