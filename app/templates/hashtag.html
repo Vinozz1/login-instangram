@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Explore - Instagram Clone</title>
+{% endblock %}
+{% block content %}
+    <style>
+        .instagram-nav {
+            background: white;
+            border-bottom: 1px solid #dbdbdb;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 935px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .nav-logo {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #262626;
+            font-weight: 600;
+        }
+        .nav-links a.active {
+            color: #0095f6;
+        }
+        .explore-container {
+            max-width: 935px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .explore-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #262626;
+        }
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        .grid-post {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .grid-post img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .grid-post:hover img {
+            transform: scale(1.05);
+        }
+        .grid-post-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .grid-post:hover .grid-post-overlay {
+            display: flex;
+        }
+        .overlay-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .no-posts {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8e8e8e;
+        }
+        @media (max-width: 768px) {
+            .post-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+    </style>
+
+    <nav class="instagram-nav">
+        <div class="nav-container">
+            <h2 class="nav-logo">Instagram</h2>
+            <div class="nav-links">
+                <a href="{{ url_for('main.feed') }}">Feed</a>
+                <a href="{{ url_for('main.explore') }}" class="active">Explore</a>
+                <a href="{{ url_for('main.profile') }}">Profile</a>
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="explore-container">
+        <h1 class="explore-title">Explore</h1>
+
+        {% if posts %}
+            <div class="post-grid">
+                {% for post in posts %}
+                <a href="{{ url_for('main.post_detail', post_id=post.id) }}" class="grid-post">
+                    <img src="{{ post.image_url }}" alt="Post image" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
+                    <div class="grid-post-overlay">
+                        <div class="overlay-stat">
+                            <span>❤️</span>
+                            <span>{{ post.likes|length }}</span>
+                        </div>
+                        <div class="overlay-stat">
+                            <span>💬</span>
+                            <span>{{ post.comments|length }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-posts">
+                <h3>No posts to explore</h3>
+                <p>Follow more users to see new content!</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
