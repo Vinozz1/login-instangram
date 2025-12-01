@@ -53,11 +53,32 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            text-decoration: none;
             color: #262626;
         }
         .user-result:hover {
             background: #fafafa;
+        }
+        .user-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            text-decoration: none;
+            color: #262626;
+        }
+        .message-btn {
+            padding: 8px 16px;
+            background: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .message-btn:hover {
+            background: #1877f2;
         }
         .user-avatar {
             width: 44px;
@@ -114,13 +135,16 @@
         {% if query %}
             {% if users %}
                 {% for user in users %}
-                <a href="{{ url_for('main.user_profile', username=user.username) }}" class="user-result">
-                    <div class="user-avatar">{{ user.fullname[0].upper() }}</div>
-                    <div class="user-info">
-                        <div class="user-username">{{ user.username }}</div>
-                        <div class="user-fullname">{{ user.fullname }}</div>
-                    </div>
-                </a>
+                <div class="user-result">
+                    <a href="{{ url_for('main.user_profile', username=user.username) }}" class="user-link">
+                        <div class="user-avatar">{{ user.fullname[0].upper() }}</div>
+                        <div class="user-info">
+                            <div class="user-username">{{ user.username }}</div>
+                            <div class="user-fullname">{{ user.fullname }}</div>
+                        </div>
+                    </a>
+                    <a href="{{ url_for('main.chat', username=user.username) }}" class="message-btn">Message</a>
+                </div>
                 {% endfor %}
             {% else %}
                 <div class="no-results">
