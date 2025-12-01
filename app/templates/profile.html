@@ -194,7 +194,8 @@
         </div>
 
         <div class="profile-tabs">
-            <div class="profile-tab active">Posts</div>
+            <div class="profile-tab active">POSTS</div>
+            <a href="{{ url_for('main.saved_posts') }}" class="profile-tab" style="text-decoration: none; color: inherit;">SAVED</a>
         </div>
 
         {% if user_posts %}
