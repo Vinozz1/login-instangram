@@ -48,8 +48,32 @@
             justify-content: center;
         }
         .nav-icon {
-            font-size: 24px;
             vertical-align: middle;
+            display: inline-flex;
+            align-items: center;
+        }
+        .nav-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+        .action-icon {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            cursor: pointer;
+        }
+        .action-icon.filled {
+            fill: #ed4956;
+            stroke: #ed4956;
+        }
+        .action-icon.saved {
+            fill: #262626;
+            stroke: #262626;
         }
         .feed-container {
             max-width: 600px;
@@ -266,14 +290,24 @@
         <div class="nav-container">
             <h2 class="nav-logo">Instagram</h2>
             <div class="nav-links">
-                <a href="{{ url_for('main.search') }}" title="Search"><span class="nav-icon">🔍</span></a>
+                <a href="{{ url_for('main.search') }}" title="Search">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="7.5"/><line x1="16" y1="16" x2="21" y2="21"/></svg>
+                    </span>
+                </a>
                 <a href="{{ url_for('main.feed') }}">Feed</a>
                 <a href="{{ url_for('main.explore') }}">Explore</a>
                 <a href="{{ url_for('main.notifications') }}" title="Notifications" id="notif-link">
-                    <span class="nav-icon">🔔</span>
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+                    </span>
                     <span class="notif-badge" id="notif-badge" style="display: none;">0</span>
                 </a>
-                <a href="{{ url_for('main.messages') }}" title="Messages"><span class="nav-icon">✉️</span></a>
+                <a href="{{ url_for('main.messages') }}" title="Messages">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10h8c1.1 0 2-.9 2-2v-8c0-5.52-4.48-10-10-10zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8v8h-8z"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/></svg>
+                    </span>
+                </a>
                 <a href="{{ url_for('main.profile') }}">Profile</a>
             </div>
         </div>
@@ -288,7 +322,9 @@
                     <span class="post-username">{{ post.user.username }}</span>
                     {% if post.user_id == current_user.id %}
                     <div class="post-menu" style="margin-left: auto;">
-                        <button class="menu-btn" onclick="togglePostMenu({{ post.id }})">⋮</button>
+                        <button class="menu-btn" onclick="togglePostMenu({{ post.id }})">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="2" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="14" r="1.5"/></svg>
+                        </button>
                         <div class="menu-dropdown" id="post-menu-{{ post.id }}">
                             <div class="menu-item" onclick="editPost({{ post.id }})">Edit</div>
                             <div class="menu-item danger" onclick="deletePost({{ post.id }})">Delete</div>
@@ -301,23 +337,21 @@
                     <button class="like-btn {% if post.likes|selectattr('user_id', 'equalto', current_user.id)|list %}liked{% endif %}"
                             onclick="toggleLike({{ post.id }})"
                             data-post-id="{{ post.id }}">
-                        {% if post.likes|selectattr('user_id', 'equalto', current_user.id)|list %}
-                            ❤️
-                        {% else %}
-                            🤍
-                        {% endif %}
+                        <svg class="action-icon {% if post.likes|selectattr('user_id', 'equalto', current_user.id)|list %}filled{% endif %}" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
                     </button>
-                    <span style="font-size: 24px;">💬</span>
+                    <svg class="action-icon" viewBox="0 0 24 24" style="margin-left: 8px;">
+                        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                    </svg>
                     <div class="post-actions-right">
                         <button class="save-btn"
                                 onclick="toggleSave({{ post.id }})"
                                 data-post-id="{{ post.id }}"
                                 id="save-btn-{{ post.id }}">
-                            {% if post.saved_by|selectattr('user_id', 'equalto', current_user.id)|list %}
-                                🔖
-                            {% else %}
-                                📑
-                            {% endif %}
+                            <svg class="action-icon {% if post.saved_by|selectattr('user_id', 'equalto', current_user.id)|list %}saved{% endif %}" viewBox="0 0 24 24">
+                                <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -389,11 +423,12 @@
             .then(data => {
                 if (data.success) {
                     // Toggle heart icon
+                    const svg = btn.querySelector('svg');
                     if (data.liked) {
-                        btn.textContent = '❤️';
+                        svg.classList.add('filled');
                         btn.classList.add('liked');
                     } else {
-                        btn.textContent = '🤍';
+                        svg.classList.remove('filled');
                         btn.classList.remove('liked');
                     }
 
@@ -527,6 +562,7 @@
         // Toggle save post
         function toggleSave(postId) {
             const btn = document.getElementById(`save-btn-${postId}`);
+            const svg = btn.querySelector('svg');
 
             fetch(`/save/${postId}`, {
                 method: 'POST',
@@ -535,7 +571,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    btn.textContent = data.saved ? '🔖' : '📑';
+                    if (data.saved) {
+                        svg.classList.add('saved');
+                    } else {
+                        svg.classList.remove('saved');
+                    }
                 }
             })
             .catch(error => console.error('Error:', error));
